@@ -62,7 +62,8 @@ cp -r dist/daemon packages/gui/daemon
 cd packages/gui || exit 1
 
 cp package.json package.json.orig
-jq --arg VER "$CHIA_INSTALLER_VERSION" '.version=$VER' package.json >temp.json && mv temp.json package.json
+GUI_VERSION=$(jq -r .version package.json)
+jq --arg VER "$CHIA_INSTALLER_VERSION" --arg GUI_VER "$GUI_VERSION" '.version=$VER | .guiVersion=$GUI_VER' package.json >temp.json && mv temp.json package.json
 
 echo "Building Linux(deb) Electron app"
 PRODUCT_NAME="chia"

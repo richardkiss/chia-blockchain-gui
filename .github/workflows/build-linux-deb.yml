@@ -42,7 +42,12 @@ jobs:
       - name: Install chia-blockchain
         run: |
           pip install --upgrade pip
-          pip install chia-blockchain setuptools_scm pyinstaller
+          CHIA_VERSION=$(cat CHIA_BLOCKCHAIN_VERSION)
+          if [ "$CHIA_VERSION" = "latest" ]; then
+            pip install chia-blockchain setuptools_scm pyinstaller
+          else
+            pip install chia-blockchain==$CHIA_VERSION setuptools_scm pyinstaller
+          fi
 
       - name: Determine Version
         id: version

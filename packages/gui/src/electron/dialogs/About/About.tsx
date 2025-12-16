@@ -5,6 +5,7 @@ import { i18n } from '../../../config/locales';
 
 export type AboutProps = {
   version: string;
+  guiVersion?: string;
   packageJson: {
     productName: string;
     description: string;
@@ -17,6 +18,7 @@ export type AboutProps = {
 export default function About(props: AboutProps) {
   const {
     version,
+    guiVersion,
     packageJson: { productName, description },
     versions,
   } = props;
@@ -33,6 +35,9 @@ export default function About(props: AboutProps) {
         <h2 className="mt-0 mb-4">
           {productName} {version}
         </h2>
+        {guiVersion && (
+          <h4 className="mt-0 mb-4">GUI Version {guiVersion}</h4>
+        )}
       </a>
       <h3 className="mt-0 mb-4">{description}</h3>
       <div className="mb-4" />

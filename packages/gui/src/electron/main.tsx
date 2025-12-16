@@ -892,6 +892,7 @@ async function openAbout() {
       packageJson,
       versions: process.versions as Record<string, string>,
       version: app.getVersion(),
+      guiVersion: (packageJson as any).guiVersion,
     },
     {
       title: 'About',
