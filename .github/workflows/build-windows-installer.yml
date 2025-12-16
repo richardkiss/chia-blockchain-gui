@@ -84,7 +84,7 @@ jobs:
 
       - uses: chia-network/actions/cache-pip@main
         with:
-          mode: pip
+          mode: setuptools
 
       - uses: Chia-Network/actions/setup-python@main
         name: Install Python ${{ matrix.python-version }}
