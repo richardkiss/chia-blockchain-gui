@@ -1,106 +1,115 @@
-# Byte-compiled / optimized / DLL files
-__pycache__/
-*.py[cod]
-*$py.class
-
-# C extensions
-*.so
-**/*.o
-**/*.DS_Store
-
-# Database
-nohup.out
-mongod.log*
-fndb_test*
-blockchain_test*
-*.db
-*.db-journal
-
-# Logs
-*.log
-*.out
-
-# Keys and plot files
-config/keys.yaml
-config/plots.yaml
-
-# Bundled code
-chia-blockchain.tar.gz.tar.gz
-
-# PyInstaller
-#  Usually these files are written by a python script from a template
-#  before PyInstaller builds the exe, so as to inject date/other infos into it.
-*.manifest
-*.spec
-build_scripts/*.dmg
-build_scripts/build
-
-
-# Installer logs
-pip-log.txt
-pip-delete-this-directory.txt
-**/*.egg-info
-
-# Unit test / coverage reports
-.cache
-.pytest_cache/
-
-# PoSpace plots
-**/*.dat
-**/*.dat.tmp
-*.mo
-*.pot
-
-# pyenv
-.python-version
-.eggs
-.venv
-venv
-activate
-
-# mypy
-.mypy_cache/
-
-# Packaging
-chia-blockchain.tar.gz
-
-# Timelord utilities
-vdf_bench
-
-# Node modules
-**/node_modules
-
-# Offer Files
-*.offer
-
-# Backup Files
-*.backup
-
-# Compiled CLVM
-main.sym
-
-# Dev config react
-# src/dev_config.js
-# React built app
-.eslintcache
-build
-build_scripts/dist
-build_scripts/*.Dmg
-packages/**/src/locales/_build
-packages/**/src/locales/**/*.js
-daemon/
-win_code_sign_cert.p12
-
-# testing
-packages/**/playwright-report/index.html
-
-.env
-dist
-
-# JetBrains
-.idea/
-
-# Test coverage data
-**/coverage
-.coverage
-.nyc_output
+     1|# Byte-compiled / optimized / DLL files
+     2|__pycache__/
+     3|*.py[cod]
+     4|*$py.class
+     5|
+     6|# C extensions
+     7|*.so
+     8|**/*.o
+     9|**/*.DS_Store
+    10|
+    11|# Database
+    12|nohup.out
+    13|mongod.log*
+    14|fndb_test*
+    15|blockchain_test*
+    16|*.db
+    17|*.db-journal
+    18|
+    19|# Logs
+    20|*.log
+    21|*.out
+    22|
+    23|# Keys and plot files
+    24|config/keys.yaml
+    25|config/plots.yaml
+    26|
+    27|# Bundled code
+    28|chia-blockchain.tar.gz.tar.gz
+    29|
+    30|# PyInstaller
+    31|#  Usually these files are written by a python script from a template
+    32|#  before PyInstaller builds the exe, so as to inject date/other infos into it.
+    33|*.manifest
+    34|# *.spec (commented out to allow pyinstaller.spec)
+    35|# *.spec
+    36|!build_scripts/pyinstaller.spec
+    37|build_scripts/*.dmg
+    38|build_scripts/build
+    39|
+    40|
+    41|# Installer logs
+    42|pip-log.txt
+    43|pip-delete-this-directory.txt
+    44|**/*.egg-info
+    45|
+    46|# Unit test / coverage reports
+    47|.cache
+    48|.pytest_cache/
+    49|
+    50|# PoSpace plots
+    51|**/*.dat
+    52|**/*.dat.tmp
+    53|*.mo
+    54|*.pot
+    55|
+    56|# pyenv
+    57|.python-version
+    58|.eggs
+    59|.venv
+    60|venv
+    61|activate
+    62|
+    63|# mypy
+    64|.mypy_cache/
+    65|
+    66|# Packaging
+    67|chia-blockchain.tar.gz
+    68|
+    69|# Timelord utilities
+    70|vdf_bench
+    71|
+    72|# Node modules
+    73|**/node_modules
+    74|
+    75|# Offer Files
+    76|*.offer
+    77|
+    78|# Backup Files
+    79|*.backup
+    80|
+    81|# Compiled CLVM
+    82|main.sym
+    83|
+    84|# Dev config react
+    85|# src/dev_config.js
+    86|# React built app
+    87|.eslintcache
+    88|build
+    89|build_scripts/dist
+    90|build_scripts/*.Dmg
+    91|packages/**/src/locales/_build
+    92|packages/**/src/locales/**/*.js
+    93|daemon/
+    94|win_code_sign_cert.p12
+    95|
+    96|# testing
+    97|packages/**/playwright-report/index.html
+    98|
+    99|.env
+   100|dist
+   101|
+   102|# JetBrains
+   103|.idea/
+   104|
+   105|# Test coverage data
+   106|**/coverage
+   107|.coverage
+   108|.nyc_output
+   109|
+   110|# CI Artifacts
+   111|madmax/
+   112|bladebit/
+   113|final_installer/
+   114|licenses/
+   115|

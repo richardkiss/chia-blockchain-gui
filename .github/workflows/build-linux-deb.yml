@@ -1,0 +1,96 @@
+name: 📦🚀 Build Installer - Linux DEB
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
+
+jobs:
+  build:
+    name: Build ${{ matrix.os.arch }}
+    runs-on: ${{ matrix.os.runs-on }}
+    timeout-minutes: 120
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.10"]
+        os:
+          - runs-on: ubuntu-latest
+            arch: amd64
+            madmax-suffix: "x86-64"
+            bladebit-suffix: "ubuntu-x86-64.tar.gz"
+            arch-artifact-name: intel
+
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: .nvmrc
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+
+      - name: Install chia-blockchain
+        run: |
+          pip install --upgrade pip
+          pip install chia-blockchain setuptools_scm pyinstaller
+
+      - name: Determine Version
+        id: version
+        run: |
+          VERSION=$(python -c "from importlib.metadata import version; print(version('chia-blockchain'))")
+          echo "CHIA_INSTALLER_VERSION=$VERSION" >> $GITHUB_ENV
+
+      - name: Get latest madmax plotter
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          LATEST_MADMAX=$(gh api repos/Chia-Network/chia-plotter-madmax/releases/latest --jq 'select(.prerelease == false) | .tag_name')
+          mkdir "$GITHUB_WORKSPACE"/madmax
+          gh release download -R Chia-Network/chia-plotter-madmax "$LATEST_MADMAX" -p 'chia_plot-*-${{ matrix.os.madmax-suffix }}' -O "$GITHUB_WORKSPACE"/madmax/chia_plot
+          gh release download -R Chia-Network/chia-plotter-madmax "$LATEST_MADMAX" -p 'chia_plot_k34-*-${{ matrix.os.madmax-suffix }}' -O "$GITHUB_WORKSPACE"/madmax/chia_plot_k34
+          chmod +x "$GITHUB_WORKSPACE"/madmax/chia_plot
+          chmod +x "$GITHUB_WORKSPACE"/madmax/chia_plot_k34
+
+      - name: Fetch bladebit versions
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          LATEST_RELEASE=$(gh api repos/Chia-Network/bladebit/releases/latest --jq 'select(.prerelease == false) | .tag_name')
+          echo "LATEST_VERSION=$LATEST_RELEASE" >> "$GITHUB_ENV"
+
+      - name: Get latest bladebit plotter
+        shell: bash
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          mkdir "$GITHUB_WORKSPACE"/bladebit
+          cd "$GITHUB_WORKSPACE"/bladebit
+          gh release download -R Chia-Network/bladebit "$LATEST_VERSION" -p 'bladebit*-${{ matrix.os.bladebit-suffix }}'
+          find . -maxdepth 1 -name '*.tar.gz' -print0 | xargs -0 -I{} bash -c 'tar -xzf {} && rm {}'
+          find . -maxdepth 1 -name 'bladebit*' -print0 | xargs -0 -I{} chmod +x {}
+          cd "$OLDPWD"
+
+      - name: Build GUI
+        run: |
+          bash build_scripts/build_linux_gui.sh
+
+      - name: Build Installer
+        run: |
+          bash build_scripts/build_linux_installer.sh ${{ matrix.os.arch }}
+
+      - name: Upload Linux artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: chia-installers-linux-deb-${{ matrix.os.arch-artifact-name }}
+          path: final_installer/
