@@ -1,0 +1,5 @@
+# Python dependencies for building the Chia Blockchain GUI installer
+# Install chia-blockchain from PyPI to get the daemon and CLI components
+chia-blockchain>=2.0.0
+pyinstaller>=6.0.0
+pip-licenses>=4.0.0

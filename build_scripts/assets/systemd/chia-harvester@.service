@@ -1,0 +1,16 @@
+[Unit]
+Description=Chia Harvester Service for %i
+After=chia-daemon@%i.service
+BindsTo=chia-daemon@%i.service
+
+[Service]
+Type=simple
+Environment=CHIA_ROOT=/home/%i/.chia/mainnet
+ExecStart=/opt/chia/chia start harvester
+User=%i
+Group=%i
+LimitNOFILE=1048576
+LimitNPROC=1048576
+
+[Install]
+WantedBy=multi-user.target
