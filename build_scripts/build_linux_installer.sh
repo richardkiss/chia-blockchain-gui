@@ -61,9 +61,15 @@ cp -r dist/daemon packages/gui/daemon
 # Build GUI Electron App
 cd packages/gui || exit 1
 
+# Function to normalize Python version to SemVer
+normalize_version() {
+  echo "$1" | sed -E 's/([0-9])(rc|beta|alpha|dev)/\1-\2/g'
+}
+
 cp package.json package.json.orig
 GUI_VERSION=$(jq -r .version package.json)
-jq --arg VER "$CHIA_INSTALLER_VERSION" --arg GUI_VER "$GUI_VERSION" '.version=$VER | .guiVersion=$GUI_VER' package.json >temp.json && mv temp.json package.json
+SEMVER_VERSION=$(normalize_version "$CHIA_INSTALLER_VERSION")
+jq --arg VER "$SEMVER_VERSION" --arg GUI_VER "$GUI_VERSION" '.version=$VER | .guiVersion=$GUI_VER' package.json >temp.json && mv temp.json package.json
 
 echo "Building Linux(deb) Electron app"
 PRODUCT_NAME="chia"

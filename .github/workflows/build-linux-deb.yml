@@ -45,8 +45,10 @@ jobs:
           CHIA_VERSION=$(cat CHIA_BLOCKCHAIN_VERSION)
           if [ "$CHIA_VERSION" = "latest" ]; then
             pip install chia-blockchain setuptools_scm pyinstaller
+          elif [[ "$CHIA_VERSION" == git+* ]] || [[ "$CHIA_VERSION" == http* ]]; then
+             pip install "$CHIA_VERSION" setuptools_scm pyinstaller
           else
-            pip install chia-blockchain==$CHIA_VERSION setuptools_scm pyinstaller
+             pip install "chia-blockchain==$CHIA_VERSION" setuptools_scm pyinstaller
           fi
 
       - name: Determine Version
